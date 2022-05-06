@@ -4,5 +4,8 @@
   "main": "index.js",
   "repository": "git@github.com:JGynther/analytics.git",
   "author": "Joona Gynther <joona@gynther.xyz>",
-  "license": "MIT"
+  "license": "MIT",
+  "workspaces": [
+    "tracker"
+  ]
 }
