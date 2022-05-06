@@ -1,0 +1,8 @@
+{
+  "name": "analytics",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:JGynther/analytics.git",
+  "author": "Joona Gynther <joona@gynther.xyz>",
+  "license": "MIT"
+}
