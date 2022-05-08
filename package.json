@@ -15,12 +15,18 @@
     "@typescript-eslint/parser": "^5.22.0",
     "commitlint": "^16.2.4",
     "eslint": "^8.15.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.5.0",
     "husky": "^7.0.4",
     "lint-staged": ">=10",
     "prettier": "latest"
   },
   "lint-staged": {
-    "*.{js,ts,tsx, jsx}": [
+    "*.{js,ts,tsx,jsx}": [
       "eslint --quiet --fix"
     ],
     "*.{json,md,html,js,jsx,ts,tsx}": [
