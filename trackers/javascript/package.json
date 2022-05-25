@@ -1,12 +1,6 @@
 {
-  "name": "tracker",
+  "name": "@analytics/tracker",
   "version": "0.0.0",
-  "main": "index.js",
-  "author": "Joona Gynther",
-  "license": "MIT",
-  "scripts": {
-    "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/index.ts"
-  },
   "devDependencies": {
     "typescript": "^4.6.4"
   }
