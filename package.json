@@ -5,6 +5,7 @@
   "workspaces": [
     "trackers/*",
     "collectors/*",
+    "example/*",
     "lib/*"
   ],
   "scripts": {

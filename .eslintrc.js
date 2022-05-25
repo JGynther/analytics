@@ -10,7 +10,7 @@ module.exports = {
   ],
   env: { node: true },
   parserOptions: {
-    project: ['trackers/*/tsconfig.json', 'collectors/*/tsconfig.json'],
+    project: ['trackers/*/tsconfig.json', 'collectors/*/tsconfig.json', 'example/*/tsconfig.json'],
   },
   ignorePatterns: ['.eslintrc.js'],
 };
