@@ -24,12 +24,17 @@ app.post('/event', (req, res) => {
 });
 
 app.post('/pageview', (req, res) => {
-  const thing = {
-    event: 'pageview',
-    timestamp: Date.now(),
-    hash: hash(req),
-  };
-  console.log('Event: ', thing, '\n');
+  console.log(
+    'Event: ',
+    {
+      timestamp: Date.now(),
+      event: 'pageview',
+      path: req.body.path,
+      project: req.body.projectid,
+      uid: hash(req),
+    },
+    '\n'
+  );
   return res.status(200).json();
 });
 
