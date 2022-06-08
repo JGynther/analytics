@@ -30,15 +30,7 @@ flowchart
         Browser{Browsers} <-..-> package[Embedded script / package]
         ---> script[Tracking Script] & events[Custom events]
     end
-
-    subgraph kv[Cloudflare KV]
-        salt[Daily salt]
-        project[Project data]
-    end
-
-    subgraph clickhouse[Clickhouse cluster]
-        async[HTTP Async interface] -.- db[(Clickhouse instance)]
-    end
+    user ==> ingestion
 
     subgraph workers[Cloudflare Workers]
         subgraph ingestion[Ingestion]
@@ -46,34 +38,69 @@ flowchart
             enrich[Enrichment] -.-
             uid[UID hash]
         end
-        ingestion -.- project
 
         subgraph saltgen[Daily Salt Generator]
             direction RL
             cron[Cron 00:00 UTC] .-> saltworker[Salt worker]
         end
-        saltgen --> salt
 
         subgraph projectflow[Project flow]
             direction TB
             projectworker[Project worker]
         end
     end
+    ingestion -.- project
+    ingestion ==> |Queue service?| clickhouse
+    saltgen --> salt
+    projectflow <--> signup
+    projectflow --> dbapi
 
-    user --> ingestion
-    ingestion --> |Queue service?| clickhouse
+    subgraph clickhouse[Clickhouse cluster]
+        async[HTTP Async interface] -.- db[(Clickhouse instance)]
+    end
+    clickhouse <===> api
+
+    subgraph kv[Cloudflare KV]
+        salt[Daily salt]
+        project[Project data]
+    end
+    project <-.-> dbapi
+
+    subgraph postgresql[PostgreSQL]
+        dbapi[(PostgreSQL instance)] 
+    end
+    dbapi <--> auth
+    dbapi -.- data
 
     subgraph etl[ETL]
         subgraph dbt
             aggregation[Scheduled aggregations]
         end
     end
+    etl --> api
+
+    subgraph data[Data platform]
+        direction TB
+        batch[Batch loading]
+        lake[(Lake)]
+        warehouse[(Warehouse)]
+    end 
+    data -.- etl
 
     subgraph api[Analytics API]
         direction TB
         aggr[Aggregation API]
         views[Views API]
     end
+    api ==> dashboard
+
+    subgraph auth[Authentication API]
+        direction TB
+        jwt[JWT service]
+        oauth[OAuth service]
+    end
+    auth <--> login
+    auth <--> api
 
     subgraph next[Nextjs app]
         dashboard[Dashboards]
@@ -82,29 +109,6 @@ flowchart
         login[Login flow]
         signup[Signup flow]
     end
-
-    etl --> api
-    clickhouse <--> api
-    api <--> dashboard
-
-    subgraph signupflow[Signup flow]
-    end
-
-    subgraph postgresql[PostgreSQL]
-        database[(PostgreSQL instance)] -.-
-        dbapi[Database API]
-    end
-
-    projectflow <--> signupflow
-    projectflow --> dbapi
-    project <--> dbapi
-    signupflow -.- signup
-
-    subgraph auth[Authentication API]
-    end
-
-    dbapi <--> auth
-    auth <--> login
 ```
 ### Overview
 
