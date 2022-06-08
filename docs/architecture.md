@@ -1,3 +1,24 @@
+# Design principles
+
+A yet-to-be-named web analytics solution.
+
+### Main design principles:
+
+- Privacy friendly, no-cookies approach
+- Fast & lightweight
+- Simple, no useless bloat
+  - Focus on features that deliver actual value
+
+### Cookieless tracking
+
+Privacy is important but so is data-driven decision making for your product.
+We can respect a users privacy by distincting users not by identifying but by calculating a hash based on requests made to the collector.
+Using information about a users IP, user-agent, the website they are visting and a random salt, we can make distinctions between users for aggregation but not identify them. The salt is changed daily to prevent tracking users accross days. Information about the website itself (projectid) is used to prevent tracking between sites.
+
+This approach has it's downsides but I think making a compromise between good enough data and good UX is important.
+
+### Architecture overview
+
 ```mermaid
 flowchart
     subgraph user[User flow]
