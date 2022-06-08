@@ -2,7 +2,7 @@
 flowchart
     subgraph user[User flow]
         CDN -...-> script
-        Browser{Browsers} <-..-> package
+        Browser{Browsers} <-..-> package[Embedded script / package]
         ---> script[Tracking Script] & events[Custom events]
     end
 
@@ -12,8 +12,7 @@ flowchart
     end
 
     subgraph clickhouse[Clickhouse cluster]
-        async[HTTP Async interface]
-        async -..- db[(Clickhouse instance)]
+        async[HTTP Async interface] -.- db[(Clickhouse instance)]
     end
 
     subgraph workers[Cloudflare Workers]
@@ -29,10 +28,16 @@ flowchart
             cron[Cron 00:00 UTC] .-> saltworker[Salt worker]
         end
         saltgen --> salt
+
+        subgraph projectflow[Project flow]
+            direction TB
+            projectworker[Project worker]
+            test
+        end
     end
 
     user --> ingestion
-    ingestion --->|Queue service?| clickhouse
+    ingestion --> |Queue service?| clickhouse
 
     subgraph etl[ETL]
         subgraph dbt
@@ -47,12 +52,32 @@ flowchart
     end
 
     subgraph next[Nextjs app]
-        direction TB
         dashboard[Dashboards]
+        marketing[Marketing site]
+        login[Login flow]
         signup[Signup flow]
     end
 
     etl --> api
     clickhouse <--> api
-    api <--> next
+    api <--> dashboard
+
+    subgraph signupflow[Signup flow]
+    end
+
+    subgraph postgresql[PostgreSQL]
+        database[(PostgreSQL instance)] -.-
+        dbapi[Database API]
+    end
+
+    projectflow <--> signupflow
+    projectflow --> dbapi
+    project <--> dbapi
+    signupflow -.- signup
+
+    subgraph auth[Authentication API]
+    end
+
+    dbapi <--> auth
+    auth <--> login
 ```
