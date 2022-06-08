@@ -32,7 +32,6 @@ flowchart
         subgraph projectflow[Project flow]
             direction TB
             projectworker[Project worker]
-            test
         end
     end
 
