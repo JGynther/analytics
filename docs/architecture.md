@@ -60,7 +60,7 @@ flowchart
     project <-.-> dbapi
 
     subgraph queue[Queue]
-        QueueService
+        queueservice[Queue service]
     end
     queue ==> clickhouse
 
