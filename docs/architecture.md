@@ -139,3 +139,26 @@ flowchart LR
 #### Collection
 
 While the main architecture is based on a serverless design, it is not required. Please see the baseline ExpressJS based base-collector.
+
+```mermaid
+flowchart LR
+    ingress[. . .] --> ingest
+
+    subgraph ingest[Ingestion]
+        direction LR
+        Pageviews
+        events[Custom events]
+    end
+
+    subgraph kv[Key-Value Store]
+        project[Project info]
+        salt[Randomized daily salt]
+    end
+
+    subgraph queue[Message queue]
+    end
+
+    ingest -.- kv
+    ingest --> queue
+    queue --> egress[. . .]
+```
