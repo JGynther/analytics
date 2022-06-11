@@ -25,13 +25,5 @@
     "husky": "^7.0.4",
     "lint-staged": ">=10",
     "prettier": "latest"
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx,jsx}": [
-      "eslint --fix"
-    ],
-    "*.{json,md,html,js,jsx,ts,tsx}": [
-      "prettier --write"
-    ]
   }
 }
